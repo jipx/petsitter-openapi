@@ -1,0 +1,41 @@
+{
+  "name": "farm_stall_api",
+  "version": "ch08-end",
+  "description": "An_API_for_writing_reviews_about_your_favourite___or_worst__farm_stalls__Picture_of_produce_httpsfarmstall_ponelat_comimgproduce_banner_jpg____AuthTo_create_Reviews_without_being__anonymous___You_need_to_add_a_MyUserToken_to_the_Authorization_header_To_get_a_MyUserToken1__Create_a_User_with__POST_users_Userspost_users1__Get_a_MyUserToken_by_calling__POST_tokens_Userspost_tokens_with_your_User_credentials__ReviewsReviews_are_the_heart_of_this_API__brRegistered_Users_and_anonymous_users_can_both_write_reviews_based_on_their_experience_at_farm_stalls__brEach_review_comes_with_a_rating_of_between_one_and_five_stars_inclusive___One_star_being_the_worst_experience__Five_stars_being_the_best_Example_Reviews__A_wonderful_time_mdash_Bob_McNally___br___5_stars_httpsfarmstall_ponelat_comimgrating_5_png__An_awful_place_mdash__Anonymous____br___1_star_httpsfarmstall_ponelat_comimgrating_1_png__A_totally_average_place__mdash_Jane_Fair___br___3_stars_httpsfarmstall_ponelat_comimgrating_3_png",
+  "license": "Apache 2.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha --require @babel/register --recursive"
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "superagent": "^5.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-do-expressions": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^8.0.1",
+    "sinon": "^7.2.0"
+  }
+}

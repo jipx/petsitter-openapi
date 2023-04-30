@@ -1,0 +1,281 @@
+openapi: 3.0.0
+info:
+  title: FarmStall API
+  description: "\nAn API for writing reviews about your favourite ( or worst ) farm\
+    \ stalls.\n\n![Picture of produce](https://farmstall.ponelat.com/img/produce-banner.jpg)\n\
+    \n---\n\n# Auth\n\nTo create **Reviews** without being _anonymous_. You need to\
+    \ add a **MyUserToken** to the `Authorization` header.\n\nTo get a **MyUserToken**:\n\
+    1. Create a **User** with [POST /users](#Users/post_users)\n1. Get a **MyUserToken**\
+    \ by calling [POST /tokens](#Users/post_tokens) with your **User** credentials.\n\
+    \n# Reviews\nReviews are the heart of this API. <br/>\nRegistered **Users** and\
+    \ anonymous users can both write reviews based on their experience at farm stalls.\
+    \ <br/>\n\nEach review comes with a rating of between one and five stars inclusive.\n\
+    \n- One star being the worst experience\n- Five stars being the best\n\n\n###\
+    \ Example Reviews\n\n  \"A wonderful time!\" &mdash; Bob McNally \n  <br/>\n \
+    \ ![5 stars](https://farmstall.ponelat.com/img/rating-5.png)\n\n  \"An awful place\"\
+    \ &mdash; _Anonymous_ \n  <br/>\n  ![1 star](https://farmstall.ponelat.com/img/rating-1.png)\n\
+    \n  \"A totally average place.\" &mdash; Jane Fair \n  <br/>\n  ![3 stars](https://farmstall.ponelat.com/img/rating-3.png)"
+  contact:
+    name: Josh Ponelat
+    url: https://ponelat.com/contact
+    email: jponelat@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: ch08-end
+externalDocs:
+  description: SwaggerHub
+  url: https://app.swaggerhub.com/apis/designing-apis/part-one
+servers:
+- url: https://virtserver.swaggerhub.com/designing-apis/part-one/ch08-end
+  description: SwaggerHub API Auto Mocking
+- url: https://farmstall.designapis.com/v1
+tags:
+- name: Reviews
+  description: Reviews of your favourite/worst farm stalls
+- name: Users
+  description: Users and authentication
+paths:
+  /reviews:
+    get:
+      tags:
+      - Reviews
+      description: Get a list of reviews
+      operationId: reviewsGET
+      parameters:
+      - name: maxRating
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: A bunch of reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                x-content-type: application/json
+      x-swagger-router-controller: Reviews
+    post:
+      tags:
+      - Reviews
+      description: Create a new Review
+      operationId: reviewsPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reviews_body'
+      responses:
+        "201":
+          description: Successfully created a new Review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+      security:
+      - MyUserToken: []
+      x-swagger-router-controller: Reviews
+  /reviews/{reviewId}:
+    get:
+      tags:
+      - Reviews
+      description: Get a single review
+      operationId: reviewsReviewIdGET
+      parameters:
+      - name: reviewId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[a-zA-Z0-9-]+"
+          type: string
+      responses:
+        "200":
+          description: A single review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "404":
+          description: Review not found
+      x-swagger-router-controller: Reviews
+  /users:
+    post:
+      tags:
+      - Users
+      description: Create a new user
+      operationId: usersPOST
+      requestBody:
+        description: User details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users_body'
+      responses:
+        "201":
+          description: Successfully created a new user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+      x-swagger-router-controller: Users
+  /tokens:
+    post:
+      tags:
+      - Users
+      description: Create a new token
+      operationId: tokensPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tokens_body'
+      responses:
+        "201":
+          description: Create a new token for gaining authenticated access to resources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_2'
+      x-swagger-router-controller: Users
+components:
+  schemas:
+    reviews_body:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An awesome time for the whole family.
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+          example: 5
+    inline_response_201:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An awesome time for the whole family.
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+          example: 5
+        userId:
+          pattern: "[a-zA-Z-.0-9]{36}"
+          type: string
+          nullable: true
+          example: f7f680a8-d111-421f-b6b3-493ebf905078
+        uuid:
+          pattern: "[a-zA-Z-.0-9]{36}"
+          type: string
+          example: f7f680a8-d111-421f-b6b3-493ebf905078
+      example:
+        rating: 5
+        message: An awesome time for the whole family.
+        userId: f7f680a8-d111-421f-b6b3-493ebf905078
+        uuid: f7f680a8-d111-421f-b6b3-493ebf905078
+    inline_response_200_1:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An awesome time for the whole family.
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+          example: 5
+        userId:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[a-zA-Z0-9-]+$"
+          nullable: true
+          example: f7f680a8-d111-421f-b6b3-493ebf905078
+        uuid:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[a-zA-Z0-9-]+$"
+          example: f7f680a8-d111-421f-b6b3-493ebf905078
+      example:
+        rating: 5
+        message: An awesome time for the whole family.
+        userId: f7f680a8-d111-421f-b6b3-493ebf905078
+        uuid: f7f680a8-d111-421f-b6b3-493ebf905078
+    users_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ponelat
+        password:
+          type: string
+          format: password
+        fullName:
+          type: string
+          example: Josh Ponelat
+    inline_response_200:
+      type: object
+      properties:
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+        message:
+          type: string
+          example: Hello from over here
+        uuid:
+          pattern: "^[0-9a-fA-F\\-]{36}$"
+          type: string
+        userId:
+          pattern: "^[0-9a-fA-F\\-]{36}$"
+          type: string
+          nullable: true
+      example:
+        rating: 1
+        message: Hello from over here
+        uuid: uuid
+        userId: userId
+    inline_response_201_1:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ponelat
+        uuid:
+          type: string
+          example: f7f680a8-d111-421f-b6b3-493ebf905078
+      example:
+        uuid: f7f680a8-d111-421f-b6b3-493ebf905078
+        username: ponelat
+    tokens_body:
+      type: object
+      properties:
+        username:
+          type: string
+          example: ponelat
+        password:
+          type: string
+          format: password
+    inline_response_201_2:
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: token
+  securitySchemes:
+    MyUserToken:
+      type: apiKey
+      name: Authorization
+      in: header

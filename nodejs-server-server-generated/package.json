@@ -1,0 +1,20 @@
+{
+  "name": "farmstall-api",
+  "version": "ch08-end",
+  "description": " An API for writing reviews about your favourite ( or worst ) farm stalls.  ![Picture of produce](https://farmstall.ponelat.com/img/produce-banner.jpg)  ---  # Auth  To create **Reviews** without being _anonymous_. You need to add a **MyUserToken** to the `Authorization` header.  To get a **MyUserToken**: 1. Create a **User** with [POST /users](#Users/post_users) 1. Get a **MyUserToken** by calling [POST /tokens](#Users/post_tokens) with your **User** credentials.  # Reviews Reviews are the heart of this API. <br/> Registered **Users** and anonymous users can both write reviews based on their experience at farm stalls. <br/>  Each review comes with a rating of between one and five stars inclusive.  - One star being the worst experience - Five stars being the best   ### Example Reviews    \"A wonderful time!\" &mdash; Bob McNally    <br/>   ![5 stars](https://farmstall.ponelat.com/img/rating-5.png)    \"An awful place\" &mdash; _Anonymous_    <br/>   ![1 star](https://farmstall.ponelat.com/img/rating-1.png)    \"A totally average place.\" &mdash; Jane Fair    <br/>   ![3 stars](https://farmstall.ponelat.com/img/rating-3.png)",
+  "main": "index.js",
+  "scripts": {
+	"prestart": "npm install",
+	"start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "js-yaml": "^3.3.0",
+    "oas3-tools": "^2.2.3"
+  }
+}
